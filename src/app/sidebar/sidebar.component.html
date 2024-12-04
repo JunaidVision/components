@@ -1,0 +1,22 @@
+<nav class="navbar navbar-vertical navbar-expand-md navbar-light bg-white" id="sidenav-main" style="box-shadow: 0px 0px 5px 2px gray;">
+    <div class="container-fluid">
+      <!-- Collapse -->
+      <a class="navbar-brand pt-0" routerLinkActive="active" [routerLink]="['']">
+        <img class=" navbar-brand-img logo" src="assets/img/FTS-logo.png" style="width: 70px;" />
+      </a>
+      <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+            <li *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item" [ngClass]="{'active':menuItem.isActive}">
+              @if(menuItem.path != ''){
+                <a routerLinkActive="active" [routerLink]="[menuItem.path]" class="nav-link">
+                    @if(menuItem.icon){
+                    <i class="{{menuItem.icon}}"></i>
+                    }
+                    {{menuItem.title}}
+                </a>
+              }
+            </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

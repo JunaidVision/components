@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "FirebaseDeploy": "ng build --configuration production --output-path \"dist/components\" && firebase deploy"
   },
   "private": true,
   "dependencies": {

@@ -1,0 +1,97 @@
+  <div class="timeLine">
+    <div class="timeline-body" style="background-color: #f1f5f9;min-height: 155px;">
+        @if ((ChatData.length ==0)) {
+            <div class="notimelineData">
+                <p>{{'No data yet,Intractions will appear here'}} </p>
+            </div>
+        }
+        <ng-container *ngIf="ChatData && ChatData.length>0">
+            <ul class="timeline-list-new">
+                @for (message of ChatData; track message ; let MIndex = $index) {
+                @if((!message.Type || message.Type=="Comment")) {
+                <li class="comments chat_type_{{message.Type}} chat_source_{{message.CreatedSource}}"
+                     (click)="message.showcontent =true">
+                    <div class="">
+                        <div class="innercomments" data-bs-toggle="collapse"
+                            [attr.data-bs-target]="'#commentscollapse_'+MIndex">
+                            <div class="innercomments-left">
+                                <div class="userSplitName">
+                                    <span class=""><i class="tabler-ti" [ngClass]="
+                                       {'ti-message-reply text-red':message.Type=='Reply' && message.CreatedSource == 'External',
+                                        'ti-message-forward text-green':(message.Type=='Reply' && message.CreatedSource != 'External') 
+                                        || message.EntityId_Desc=='Tickets' || message.Type=='Tickets' ||  message.Type=='Forward',
+                                        'ti-messages text-primary':message.Type=='Comment','ti-note text-warning':message.Type=='Notes',
+                                        'ti-mail-check text-info':message.EntityId_Desc=='Approvals','ti-subtask text-muted':message.EntityId_Desc=='Task'
+                                      }"></i></span>
+                                </div>
+                            </div>
+                            <div class="info-details">
+                                <div class="d-flex justify-content-sm-between">
+                                    <span class="author-name">
+                                        <b>{{message.From?message.From: (message.CreatedBy_Name?message.CreatedBy_Name:
+                                            message.CreatedBy)}}</b> <br>
+                                        @if (message.To || message.ToRecipients) {
+                                        <span class="text-ellipsis" style="width: 400px;display: inline-block;">To :
+                                            {{message.To?message.To: message.ToRecipients}}</span><br>
+                                        }
+                                        @if (message.Cc || message.CcRecipients) {
+                                        <span>Cc : {{message.Cc?message.Cc: message.CcRecipients}}</span><br>
+                                        }
+        
+                                        @if(message.EntityId_Desc=='Approvals'){
+                                        <span>Has send approval</span>
+                                        }
+                                        @if(message.EntityId_Desc=='Task'){
+                                        <span>Has created new task</span>
+                                        }
+        
+                                    </span>
+        
+                                    <span>
+                                        {{(message.CreatedDateTime? message.CreatedDateTime: message.CreatedDatetime) | datetimeago}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-body">
+                            <div [innerHTML]="message.Comments"></div>
+                        </div>
+                    </div>
+                </li>
+                }
+                @else {
+        
+                <li class="comments comments-history">
+                    <div class="tiny-dot">
+                        <i class="tabler-ti ti-history"></i>
+                    </div>
+                    <div class="info">
+                        <div class="userSplitName d-none me-2">
+                            <span class="">{{message.splitName}}</span>
+                        </div>
+                        <div class="d-inline-block">
+                            <span class="author-name">{{message.CreatedBy_Name?message.CreatedBy_Name:message.CreatedBy}}</span>
+                            @if(message.Type=="StatusChange" && message.Status ){
+                            Changed to <span class="status_lable tag_{{message.Status}}">status: {{message.Status}}</span>
+                            }
+                            @else if(message.Type=="Assignment" && message.AssignedTo){
+                            Assigned to <span
+                                class="assignment_lable">{{message.AssignedTo_Name?message.AssignedTo_Name:message.AssignedTo}}</span>
+                            }
+                            @else {
+                                {{message.Comments}}
+                            }
+        
+                            <span>
+                                {{(message.CreatedDateTime? message.CreatedDateTime: message.CreatedDatetime) | datetimeago}}
+                            </span>
+                        </div>
+                    </div>
+                </li>
+                }
+                }
+        
+            </ul>
+        </ng-container>
+    </div>
+</div>

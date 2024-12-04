@@ -1,0 +1,24 @@
+<div class="wrapper">
+    <ul class="chat-lists">
+      @for (message of ChatData; track $index) {
+      <div>
+  
+        <li class="" [ngClass]="{'right':message.CreatedBy === CurrentUserName ,
+               'left':message.CreatedBy !== CurrentUserName}">
+         
+          <div class="content clearfix">
+            <span class="by"> <span class="" style="padding: 0 20px;display: inline-block;">{{message.CreatedDatetime}}</span> {{message.CreatedBy}}</span>
+          <div class="message">
+            <span>{{message.Comments}}</span>
+          </div>
+          </div>
+          <div class="img">
+            <img src="https://cdn-icons-png.flaticon.com/64/3135/3135715.png" alt="">
+          </div>
+          
+        </li>
+      </div>
+  
+      }
+    </ul>
+  </div>
